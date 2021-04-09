@@ -32,8 +32,6 @@ class Customize extends Component {
             price: 0.00,
             flavorName: '',
             pic: icecream
-
-
         }
         this.addFlavor = this.addFlavor.bind(this)
         this.deleteFlavor = this.deleteFlavor.bind(this)
@@ -41,11 +39,6 @@ class Customize extends Component {
         this.deleteAddIn = this.deleteAddIn.bind(this)
         this.submitFlavor = this.submitFlavor.bind(this)
         this.goToOrder = this.goToOrder.bind(this)
-        // this.checkFlavors = this.checkFlavors.bind(this)
-
-    }
-    componentDidMount() {
-        console.log(this.props)
     }
 
     goToOrder() {
@@ -53,8 +46,6 @@ class Customize extends Component {
         const { orderId, flavorsIds } = this.props
         flavorsIds.map(e => axios.post('/api/bag_list', { bag_id: orderId, flavor_id: e.id })
             .then(res => {
-                console.log('it is working')
-
             }))
 
         this.props.history.push(`/Order/${this.props.orderId}`)
@@ -63,7 +54,6 @@ class Customize extends Component {
     }
 
     checkFlavors = (copiedArray) => {
-        console.log(copiedArray)
         if (copiedArray.length === 0) {
             this.setState({ pic: icecream })
         }
@@ -150,13 +140,9 @@ class Customize extends Component {
     }
 
     deleteFlavor(e) {
-        console.log(e)
         const copiedArray = [...this.state.flavors]
-        console.log(this.state.flavors)
         const index = this.state.flavors.findIndex(element => element === e)
-        console.log(index)
         copiedArray.splice(index, 1)
-
         this.setState({ flavors: [...copiedArray] })
         this.setState({ price: this.state.price - 1.00 })
         this.checkFlavors(copiedArray)
@@ -164,15 +150,10 @@ class Customize extends Component {
     }
 
     deleteAddIn(e) {
-        console.log(e)
         const copiedArray = [...this.state.addIns]
-        console.log(this.state.addIns)
         const index = this.state.addIns.findIndex(element => element === e)
-        console.log(index)
         copiedArray.splice(index, 1)
-
         this.setState({ addIns: [...copiedArray] })
-        console.log(copiedArray)
         this.setState({ price: this.state.price - 1.00 })
 
     }
@@ -185,12 +166,10 @@ class Customize extends Component {
             }
             this.setState({ addIns: [...this.state.addIns, event.target.value] })
             this.setState({ price: this.state.price + 1.00 })
-
         }
         else {
             alert('AddIns cap reached')
         }
-
     }
 
 
@@ -199,7 +178,6 @@ class Customize extends Component {
             if (this.state.flavors.some(flavor => flavor === event.target.value)) {
                 return
             }
-
             let copiedArray = [...this.state.flavors, event.target.value]
             this.setState({ flavors: [...this.state.flavors, event.target.value] })
             this.checkFlavors(copiedArray)
@@ -214,11 +192,10 @@ class Customize extends Component {
 
 
     render() {
-        console.log(this.state.flavors)
         return (
             <div className="container">
                 <div className="icecream-wrapper">
-                    <img src={this.state.pic} alt="icecream"/>
+                    <img src={this.state.pic} alt="icecream" />
                 </div>
                 <div className="flavor-wrapper">
                     <label>Flavors</label>

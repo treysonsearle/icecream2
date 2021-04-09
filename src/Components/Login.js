@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { updateUser , updateOrderId } from '../redux/reducer.js';
+import { updateUser, updateOrderId } from '../redux/reducer.js';
 
 
 
@@ -78,7 +78,6 @@ class Login extends Component {
         <div className='login-container'>
           <div className="icecream-container">
             <h1 className="title" >Icecream Creator</h1>
-
           </div>
           {this.state.errorMsg && <h3 className='login-error-msg'>{this.state.errorMsg} <span onClick={this.closeErrorMessage}>X</span></h3>}
           <div className='login-input-box'>

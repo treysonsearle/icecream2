@@ -7,10 +7,9 @@ import Order from './Components/Order'
 
 export default (
     <Switch>
-        <Route component={Login} exact path='/'/>
-        <Route component={Dash}  path='/dash'/>
-        <Route component={Customize}  path='/customize'/>
-        <Route component={Order}  path='/Order/:id'/>
-    
+        <Route component={Login} exact path='/' />
+        <Route component={Dash} path='/dash' />
+        <Route component={Customize} path='/customize' />
+        <Route component={Order} path='/Order/:id' />
     </Switch>
-  );
+);

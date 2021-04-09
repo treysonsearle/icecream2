@@ -4,7 +4,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import StripeCheckout from 'react-stripe-checkout'
 import { setFlavorId, clearFlavorId, subFromTotal, addNewFlavor, addToTotal, clearTotal, updateOrderId } from '../redux/reducer.js';
-
 import './Order.css';
 
 
@@ -12,12 +11,10 @@ import './Order.css';
 class Order extends Component {
     constructor(props) {
         super(props)
-
         this.handleToken = this.handleToken.bind(this)
         this.removeFlavorFromBag = this.removeFlavorFromBag.bind(this)
         this.getFlavorIds = this.getFlavorIds.bind(this)
     }
-
 
     removeFlavorFromBag(id) {
         console.log(id)
@@ -25,28 +22,14 @@ class Order extends Component {
             .then(res => {
                 console.log(res.data)
                 this.getFlavorIds(res.data)
-
             }).catch(
                 err => console.log(err)
             )
-
-
-
-    }
-
-    componentDidMount() {
-        // this.getTotal()
     }
 
     getFlavorIds(arr) {
-
-
         let refreshedFlavorIds = arr.map(e => e.flavor_id)
-        // let newArray = []
-        console.log(refreshedFlavorIds)
-
         this.props.clearFlavorId()
-        console.log(this.props.flavorsIds)
         this.props.clearTotal()
         refreshedFlavorIds.map(e => axios.get(`/api/flavor/${e}`)
             .then(res => {
@@ -57,12 +40,7 @@ class Order extends Component {
                     amount: res.data.price,
                     pic: res.data.pic
                 }
-                // newArray.push(obj)
-                console.log(obj)
                 this.props.addNewFlavor(obj)
-
-                console.log(this.props.total)
-
             }))
     }
 
@@ -71,26 +49,19 @@ class Order extends Component {
 
     async handleToken(token, addresses) {
         let { total } = this.props
-
-        console.log(total)
         const response = await axios.post(
             "/api/checkout",
             { token, total }
         );
         const { status } = response.data;
-        console.log("Response:", response.data);
         if (status === "success") {
 
             alert("Success! Check email for details", { type: "success" });
             axios.put(`/api/bag/${this.props.orderId}`)
             axios.post('/api/bag').then(res => {
-                console.log(res.data)
                 this.props.updateOrderId(res.data.id).then(res => {
                     axios.post('/api/bag').then(res => {
-                        console.log(res.data)
                         this.props.updateOrderId(res.data.id)
-                        console.log(this.props.orderId)
-
                     })
                         .catch(err => {
                             console.log(err)
@@ -110,20 +81,12 @@ class Order extends Component {
 
     render() {
         const { flavorsIds } = this.props
-        console.log(this.props)
         return (
             <div className="container">
                 <h1>Your Order</h1>
-
-
                 <div>
-
-                    <div>{flavorsIds?.map((e, i) => <div key={e.id}>{e.name} <img src={e.pic} alt="icecream"/> <p>Price: {e.amount}</p>   <button className="appBtn" value={e.id} onClick={() => this.removeFlavorFromBag(e.id)}>Remove</button></div>)}</div>
-
-
-
+                    <div>{flavorsIds?.map((e, i) => <div key={e.id}>{e.name} <img src={e.pic} alt="icecream" /> <p>Price: {e.amount}</p>   <button className="appBtn" value={e.id} onClick={() => this.removeFlavorFromBag(e.id)}>Remove</button></div>)}</div>
                     <div>Total: {this.props.total}</div>
-
                 </div>
                 <StripeCheckout
                     stripeKey='pk_test_51IGYRdBdX1pC86gACqjFd3cB4kTeGGmMTBpgtkkELehitJHzGlUQRB8Cm6AJr0cS1zr1FCX5qo3eEHWmrI5GUhRc00BeWPHV78'

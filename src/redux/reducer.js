@@ -5,7 +5,6 @@ const initialState = {
   flavorsIds: [],
   orderId: -1,
   total: 0,
-
 }
 
 const UPDATE_USER = 'UPDATE_USER';
@@ -27,8 +26,8 @@ export function clearTotal() {
 
 export function updateOrderId(id) {
   return {
-      type: UPDATE_ORDER_ID,
-      payload: id
+    type: UPDATE_ORDER_ID,
+    payload: id
   }
 
 }
@@ -87,7 +86,6 @@ export function logout() {
 
 export default function reducer(state = initialState, action) {
   let { type, payload } = action;
-  console.log(payload)
   switch (type) {
     case ADD_TO_TOTAL:
       return { ...state, total: state.total + payload }

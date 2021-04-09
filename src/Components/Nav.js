@@ -3,14 +3,11 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { updateUser, logout } from '../redux/reducer.js';
-
-
 import './Nav.css';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
-
     this.logout = this.logout.bind(this);
     this.getUser = this.getUser.bind(this);
   }
