@@ -32,7 +32,6 @@ class Dash extends Component {
     let newArray = []
     axios.get('/api/flavors')
       .then(res => {
-        console.log(res)
         this.setState({ flavors: res.data })
         for (let i = 0; i < 9; i++) {
           let index = Math.floor(Math.random() * Math.floor(this.state.flavors.length - 1))

@@ -42,7 +42,6 @@ class Customize extends Component {
     }
 
     goToOrder() {
-        console.log(this.props.flavorsIds)
         const { orderId, flavorsIds } = this.props
         flavorsIds.map(e => axios.post('/api/bag_list', { bag_id: orderId, flavor_id: e.id })
             .then(res => {
@@ -109,7 +108,6 @@ class Customize extends Component {
     }
 
     submitFlavor() {
-        console.log('im clicked')
         if (this.state.flavors.length >= 1) {
             axios.post('/api/flavor', this.state)
                 .then(res => {
@@ -121,7 +119,6 @@ class Customize extends Component {
                         pic: res.data.pic
                     }
                     this.props.addNewFlavor(obj)
-                    console.log(this.props.flavorsIds)
 
                 })
                 .catch(err => {

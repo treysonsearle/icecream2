@@ -66,22 +66,16 @@ app.delete(`/api/bagList/:id`, bagCtrl.deleteBagList);
 
 //stripe
 app.post("/api/checkout", async (req, res) => {
-  console.log("Request:", req.body);
-
   let error;
   let status;
   try {
     const { token, total } = req.body;
-
-    console.log(token)
-    console.log(total)
     const customer = await stripe.customers.create({
       email: token.email,
       source: token.id
     });
 
     const idempotency_key = uuidv4();
-    console.log(idempotency_key)
     const charge = await stripe.charges.create(
       {
         amount: total * 100,
@@ -104,7 +98,7 @@ app.post("/api/checkout", async (req, res) => {
         idempotency_key
       }
     );
-    console.log("Charge:", { charge });
+
     status = "success";
   } catch (error) {
     console.error("Error:", error);
@@ -113,10 +107,5 @@ app.post("/api/checkout", async (req, res) => {
   res.json({ error, status });
 });
 
-// app.use(express.static(__dirname + '/../build'))
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../build/index.html'))
-// })
 
 app.listen(PORT, _ => console.log(`running on ${PORT}`));

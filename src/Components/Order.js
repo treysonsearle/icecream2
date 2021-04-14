@@ -17,10 +17,8 @@ class Order extends Component {
     }
 
     removeFlavorFromBag(id) {
-        console.log(id)
         axios.delete(`/api/bagList/${id}`)
             .then(res => {
-                console.log(res.data)
                 this.getFlavorIds(res.data)
             }).catch(
                 err => console.log(err)

@@ -4,19 +4,15 @@ module.exports = {
     register_user: async (req, res) => {
         const { username, password } = req.body;
         const db = req.app.get('db');
-        console.log("ZOL Username: " + username)
         const result = await db.user.find_user_by_username([username]);
-        console.log("ZOL Result: " + result[0])
         const existingUser = result[0];
         if (existingUser) {
             return res.status(409).send('Username taken');
         }
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-        console.log("ZOL Hash: " + hash)
         const registeredUser = await db.user.create_user([username, hash]);
         const user = registeredUser[0];
-        console.log("ZOL user: " + user)
         req.session.user = { id: user.id, username: user.username, bagId: user.bag_id };
         return res.status(201).send(req.session.user);
     },

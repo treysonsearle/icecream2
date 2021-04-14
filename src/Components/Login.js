@@ -31,7 +31,6 @@ class Login extends Component {
         this.props.updateUser(res.data)
         this.props.history.push('/dash');
         axios.post('/api/bag').then(res => {
-          console.log(res.data)
           this.props.updateOrderId(res.data.id)
 
         })
@@ -49,7 +48,6 @@ class Login extends Component {
   register() {
     axios.post('/api/login/register', this.state)
       .then(res => {
-        console.log(res.data)
         this.props.updateUser(res.data);
         this.props.history.push('/dash')
       })
