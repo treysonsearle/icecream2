@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { updateOrderId } from '../redux/reducer';
-import './Dash.css';
+import React, { Component } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { updateOrderId } from "../redux/reducer";
+import "./Dash.css";
 
 class Dash extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      search: "",
       myFlavors: true,
       oldestFirst: false,
       flavors: [],
       randomFlavors: [],
-      selectedFlavor: ''
-    }
+      selectedFlavor: "",
+    };
     this.grabFlavors = this.grabFlavors.bind(this);
-    this.createOrder = this.createOrder.bind(this)
-
+    this.createOrder = this.createOrder.bind(this);
   }
 
   createOrder() {
-    this.props.history.push(`/customize`)
+    this.props.history.push(`/customize`);
   }
 
   componentDidMount() {
@@ -29,26 +28,40 @@ class Dash extends Component {
   }
 
   grabFlavors() {
-    let newArray = []
-    axios.get('/api/flavors')
-      .then(res => {
-        this.setState({ flavors: res.data })
-        for (let i = 0; i < 9; i++) {
-          let index = Math.floor(Math.random() * Math.floor(this.state.flavors.length - 1))
-          newArray.push(this.state.flavors[index])
-          this.setState({ randomFlavors: [...newArray] })
-        }
-      })
+    let newArray = [];
+    axios.get("/api/flavors").then((res) => {
+      this.setState({ flavors: res.data });
+      for (let i = 0; i < 9; i++) {
+        let index = Math.floor(
+          Math.random() * Math.floor(this.state.flavors.length - 1)
+        );
+        newArray.push(this.state.flavors[index]);
+        this.setState({ randomFlavors: [...newArray] });
+      }
+    });
   }
   render() {
-    let { randomFlavors } = this.state
+    let { randomFlavors } = this.state;
 
     return (
       <div className="container">
-        <div className="flavors" >{randomFlavors?.map((e, i) => <div className="flavorImg" key={i}><img src={e.pic} alt="icecream" /><p className="flavor-name">{e?.flavor_name}</p></div>)}</div>
-        <button className="appBtn" id="createBtn" onClick={() => this.createOrder()}>Create your own</button>
+        <div className="flavors">
+          {randomFlavors?.map((e, i) => (
+            <div className="flavorImg" key={i}>
+              <img src={e.pic} alt="icecream" />
+              <p className="flavor-name">{e?.flavor_name}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          className="appBtn"
+          id="createBtn"
+          onClick={() => this.createOrder()}
+        >
+          Create your own
+        </button>
       </div>
-    )
+    );
   }
 }
 
